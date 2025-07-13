@@ -34,6 +34,7 @@ Este projeto foi desenvolvido para **estudo e aprendizado**. Ele usa inteligênc
 ### Requisitos
 
 - Python 3.8 ou superior
+- Biblioteca do Streamlit
 - Chave de API do Google Gemini ([Crie aqui!](https://aistudio.google.com/app/apikey))
 
 ### Instalação
