@@ -1,18 +1,19 @@
 import google.generativeai as genai
-import os
 
-genai.configure(api_key=os.getenv("GEMINI_API_KEY", "AIzaSyA920dNYCD5GyHJ7Cce8fcGgC8KfxOrYqQ"))
+api_key = "AIzaSyA920dNYCD5GyHJ7Cce8fcGgC8KfxOrYqQ"
+
+genai.configure(api_key=api_key)
 model = genai.GenerativeModel("gemini-1.5-flash")
 
 def process_text(file):
     text = file.read().decode("utf-8")
     return text
 
-def verify_news(texto):
+def verify_news(text):
     prompt = f"""
 Você é um verificador especialistade fake news. Leia a seguinte notícia:
 
-{texto}
+{text}
 
 Com base em dados disponíveis, fontes confiáveis e verificações de fatos:
 
@@ -25,26 +26,26 @@ Use linguagem simples. Não invente fatos. Seja direto.
 
     try:
         response = model.generate_content(prompt)
-        resposta = response.text
+        gemini_response = response.text
 
-        veredito = "Desconhecido"
-        confianca = "-"
-        justificativa = resposta.strip()
+        veredict = "Desconhecido"
+        trust = "-"
+        justification = gemini_response.strip()
 
-        if "fals" in resposta.lower():
-            veredito = "Falsa"
-        elif "verdade" in resposta.lower() or "real" in resposta.lower():
-            veredito = "Verdadeira"
+        if "fals" in gemini_response.lower():
+            veredict = "Falsa"
+        elif "verdade" in gemini_response.lower() or "real" in gemini_response.lower():
+            veredict = "Verdadeira"
 
-        for linha in resposta.split("\n"):
-            if "%" in linha:
-                confianca = linha.strip()
+        for line in gemini_response.split("\n"):
+            if "%" in line:
+                trust = line.strip()
                 break
 
         return {
-            "veredito": veredito,
-            "confianca": confianca,
-            "justificativa": justificativa
+            "veredito": veredict,
+            "confianca": trust,
+            "justificativa": justification
         }
 
     except Exception as e:
